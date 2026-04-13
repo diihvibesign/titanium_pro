@@ -13,7 +13,15 @@ function MagneticButton({ children, distance = 0.6, className = "" }) {
   const springX = useSpring(x, SPRING_CONFIG);
   const springY = useSpring(y, SPRING_CONFIG);
 
+  const [hasHover, setHasHover] = useState(false);
+  
   useEffect(() => {
+    setHasHover(window.matchMedia('(hover: hover)').matches);
+  }, []);
+
+  useEffect(() => {
+    if (!hasHover) return;
+
     const calculateDistance = (e) => {
       if (ref.current) {
         const rect = ref.current.getBoundingClientRect();

@@ -71,7 +71,7 @@ export default function Hero() {
           autoPlay
           muted
           playsInline
-          className="w-full h-full object-cover object-[center_35%] md:object-center opacity-60"
+          className="w-full h-full object-cover object-[center_35%] md:object-center opacity-60 scale-125 md:scale-100 transition-transform duration-1000"
         >
           {/* Ocultando loop para tocar apenas uma vez e congelar no final */}
           <source src="/videos/video_hero_section_optimized.webm" type="video/webm" />
