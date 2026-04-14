@@ -25,22 +25,15 @@ export default function Hero() {
       });
     };
 
-    if (typeof window !== 'undefined' && window.scrollY > 50) {
-      triggerReveal();
-    }
+    // Remove immediate scroll-based reveals to respect video end sequence
+    // if (typeof window !== 'undefined' && window.scrollY > 50) {
+    //   triggerReveal();
+    // }
 
     const ctx = gsap.context(() => {
-      // Intentionally hide the content and global navbar at the start
-      gsap.set('.hero-text, #app-navbar, #whatsapp-button', { autoAlpha: 0, y: 30 });
+      // Visibility is managed primarily by CSS to prevent FOUC
       
-      // If the user naturally scrolls down before the video finishes, 
-      // forcefully reveal the navbar and content to prevent trapping them.
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: "top -50px",
-        onEnter: triggerReveal,
-      });
-
+      // We removed the ScrollTrigger reveal to ensure it only happens after video
     }, containerRef);
 
     // Bind native video ended event
@@ -73,9 +66,7 @@ export default function Hero() {
           playsInline
           className="w-full h-full object-cover object-[center_35%] md:object-center opacity-60 scale-125 md:scale-100 transition-transform duration-1000"
         >
-          {/* Ocultando loop para tocar apenas uma vez e congelar no final */}
           <source src="/videos/video_hero_section_optimized.webm" type="video/webm" />
-          <source src="/videos/hero-background.mp4" type="video/mp4" />
         </video>
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#0D0D12]/20 via-black/50 to-[#0D0D12]"></div>

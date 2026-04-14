@@ -2,6 +2,8 @@ import React from 'react';
 import { Map, MapMarker, MarkerContent } from './ui/map';
 
 export default function Localizacao() {
+  const [isMapActive, setIsMapActive] = React.useState(false);
+
   return (
     <section id="localizacao" className="py-24 px-6 md:px-12 w-full bg-transparent relative overflow-hidden flex flex-col items-center justify-center z-10">
       {/* Upper transition shadow */}
@@ -25,12 +27,13 @@ export default function Localizacao() {
         {/* Glow behind the map */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-primary/20 blur-[100px] rounded-full pointer-events-none z-0" />
         
-        {/* Map Component */}
-        <div className="relative z-10 w-full max-w-4xl rounded-[40px] border border-white/5 overflow-hidden shadow-[0_0_50px_rgba(254,22,22,0.05)] h-[400px] mb-12 flex justify-center bg-transparent">
+        {/* Map Component Container */}
+        <div className="relative z-10 w-full max-w-4xl rounded-[40px] border border-white/5 overflow-hidden shadow-[0_0_50px_rgba(254,22,22,0.05)] h-[400px] mb-12 flex justify-center bg-transparent group/map">
+          
           <Map
             center={[-49.1832, -16.6565]}
             zoom={15}
-            interactive={true}
+            interactive={isMapActive}
             mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
           >
             <MapMarker longitude={-49.1832} latitude={-16.6565}>
@@ -41,6 +44,18 @@ export default function Localizacao() {
               </MarkerContent>
             </MapMarker>
           </Map>
+
+          {/* Interaction Overlay */}
+          {!isMapActive && (
+            <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/40 backdrop-blur-[2px] transition-all duration-500 group-hover/map:bg-black/20">
+              <button 
+                onClick={() => setIsMapActive(true)}
+                className="px-8 py-3 bg-primary text-white font-bold uppercase tracking-widest rounded-full shadow-[0_0_20px_rgba(254,22,22,0.4)] hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-110 active:scale-95 border-2 border-primary"
+              >
+                Interagir com o Mapa
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Call to Action to Maps */}
