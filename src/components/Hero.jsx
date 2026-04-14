@@ -31,9 +31,9 @@ export default function Hero() {
     // }
 
     const ctx = gsap.context(() => {
-      // Visibility is managed primarily by CSS to prevent FOUC
-      
-      // We removed the ScrollTrigger reveal to ensure it only happens after video
+      // Visibility is managed primarily by CSS, but we set it here too
+      // to ensure GSAP has control over the properties from t=0.
+      gsap.set('.hero-text, #app-navbar, #whatsapp-button', { autoAlpha: 0, y: 30 });
     }, containerRef);
 
     // Bind native video ended event
@@ -41,19 +41,18 @@ export default function Hero() {
       videoRef.current.onended = triggerReveal;
     }
 
-      // Safety fallback: if video is blocked entirely by browser policies, show UI after 12s
-      const fallbackId = setTimeout(triggerReveal, 12000);
+    // Safety fallback: if video is blocked entirely by browser policies, show UI after 15s
+    const fallbackId = setTimeout(triggerReveal, 15000);
 
-      return () => {
-        clearTimeout(fallbackId);
-        if (videoRef.current) {
-          videoRef.current.onended = null;
-        }
-        ctx.revert();
-        // Ensure the navbar is visible defensively if the component unmounts
-        gsap.set('#app-navbar', { autoAlpha: 1, y: 0 });
-      };
-    }, []);
+    return () => {
+      clearTimeout(fallbackId);
+      if (videoRef.current) {
+        videoRef.current.onended = null;
+      }
+      ctx.revert();
+      // DO NOT reveal navbar here as it causes premature reveal in Strict Mode
+    };
+  }, []);
 
   return (
     <section id="home" ref={containerRef} className="relative w-full h-[100svh] flex items-center justify-center overflow-hidden bg-[#0D0D12]">
