@@ -33,7 +33,10 @@ export default function Localizacao() {
           <Map
             center={[-49.1832, -16.6565]}
             zoom={15}
-            interactive={isMapActive}
+            scrollZoom={isMapActive}
+            dragPan={isMapActive}
+            dragRotate={isMapActive}
+            touchZoomRotate={isMapActive}
             mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
           >
             <MapMarker longitude={-49.1832} latitude={-16.6565}>
