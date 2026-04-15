@@ -2,7 +2,7 @@
 
 import MapLibreGL, { type PopupOptions, type MarkerOptions } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { useTheme } from "next-themes";
+// next-themes removed for performance
 import {
   createContext,
   useCallback,
@@ -66,7 +66,7 @@ function Map({ children, styles, ...props }: MapProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isStyleLoaded, setIsStyleLoaded] = useState(false);
-  const { resolvedTheme } = useTheme();
+  const resolvedTheme = "dark"; // Titanium Pro is always dark
 
   const mapStyles = useMemo(
     () => ({
@@ -84,8 +84,7 @@ function Map({ children, styles, ...props }: MapProps) {
     if (!isMounted || !containerRef.current) return;
 
     // By default titanium pro is dark
-    const mapStyle =
-      resolvedTheme === "light" ? mapStyles.light : mapStyles.dark;
+    const mapStyle = mapStyles.dark;
 
     const mapInstance = new MapLibreGL.Map({
       container: containerRef.current,
@@ -113,13 +112,7 @@ function Map({ children, styles, ...props }: MapProps) {
   }, [isMounted]);
 
   useEffect(() => {
-    if (mapRef.current) {
-      setIsStyleLoaded(false);
-      mapRef.current.setStyle(
-        resolvedTheme === "light" ? mapStyles.light : mapStyles.dark,
-        { diff: true }
-      );
-    }
+    // Theme switching logic removed for performance
   }, [resolvedTheme, mapStyles]);
 
   const isLoading = !isMounted || !isLoaded || !isStyleLoaded;

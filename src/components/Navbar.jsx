@@ -5,7 +5,7 @@ import { ShinyButton } from './ui/shiny-button';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Navbar({ onLoginClick }) {
+const Navbar = React.memo(({ onLoginClick }) => {
   const navRef = useRef(null);
 
   useEffect(() => {
@@ -45,4 +45,6 @@ export default function Navbar({ onLoginClick }) {
       </ShinyButton>
     </nav>
   );
-}
+});
+
+export default Navbar;

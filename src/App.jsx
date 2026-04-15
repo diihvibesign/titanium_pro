@@ -12,12 +12,13 @@ const Footer = lazy(() => import('./components/Footer'));
 const WhatsAppButton = lazy(() => import('./components/WhatsAppButton'));
 const AuthScreen = lazy(() => import('./components/AuthScreen'));
 
+import { motion, MotionConfig } from 'framer-motion';
+
 import gsap from 'gsap';
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
 
-gsap.registerPlugin(ScrollToPlugin);
+// Remove ScrollToPlugin for weight reduction
 
 function App() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
@@ -29,40 +30,53 @@ function App() {
   };
 
   useEffect(() => {
-    // Initialize Lenis
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      smoothTouch: false,
-      touchMultiplier: 2,
-      infinite: false,
-    });
+    // Initialize Lenis only on Desktop/Tablet
+    const isMobile = window.innerWidth < 768;
+    
+    let lenis = null;
+    if (!isMobile) {
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        smoothTouch: false,
+        touchMultiplier: 2,
+        infinite: false,
+      });
 
-    function raf(time) {
-      lenis.raf(time);
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+
       requestAnimationFrame(raf);
     }
-
-    requestAnimationFrame(raf);
 
     // Reset scroll to top on reload
     window.scrollTo(0, 0);
 
     const handleLinkClick = (e) => {
       const href = e.currentTarget.getAttribute('href');
-      // Apenas faz o scroll se o href for válido e começar com # (ex: #planos, #estrutura)
       if (href && href.startsWith('#') && href.length > 1) {
         e.preventDefault();
         const target = document.querySelector(href);
         if (target) {
-          lenis.scrollTo(target, {
-            offset: -100,
-            duration: 1.5,
-          });
+          if (lenis) {
+            lenis.scrollTo(target, {
+              offset: -100,
+              duration: 1.5,
+            });
+          } else {
+            // Native fallback for mobile
+            const offsetTop = target.offsetTop - 100;
+            window.scrollTo({
+              top: offsetTop,
+              behavior: 'smooth'
+            });
+          }
         }
       }
     };
@@ -72,12 +86,13 @@ function App() {
     
     return () => {
       anchors.forEach(anchor => anchor.removeEventListener('click', handleLinkClick));
-      lenis.destroy();
+      if (lenis) lenis.destroy();
     };
   }, []);
 
   return (
-    <main className="w-full bg-[#0D0D12] text-white overflow-hidden selection:bg-primary selection:text-white relative">
+    <MotionConfig reducedMotion="user">
+      <main className="w-full bg-[#0D0D12] text-white overflow-hidden selection:bg-primary selection:text-white relative">
       <Navbar onLoginClick={() => openAuth('login')} />
       <Hero />
       
@@ -114,7 +129,8 @@ function App() {
           initialView={authView} 
         />
       </Suspense>
-    </main>
+      </main>
+    </MotionConfig>
   );
 }
 

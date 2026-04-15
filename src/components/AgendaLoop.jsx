@@ -53,7 +53,7 @@ const typeColors = {
   pilates: "from-white/5 to-transparent text-white border-white/5 opacity-80",
 };
 
-export default function AgendaLoop() {
+const AgendaLoop = React.memo(() => {
   const [activeDay, setActiveDay] = useState("Segunda");
   const days = Object.keys(weeklySchedule);
 
@@ -69,7 +69,7 @@ export default function AgendaLoop() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="font-heading text-4xl sm:text-6xl md:text-7xl font-bold text-white mb-8 uppercase tracking-tighter"
+            className="font-heading text-4xl sm:text-6xl md:text-7xl font-bold text-white mb-8 uppercase tracking-tighter text-balance"
           >
             Agenda da <span className="text-primary italic font-drama">Semana</span>
           </motion.h2>
@@ -78,7 +78,7 @@ export default function AgendaLoop() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-white max-w-2xl mx-auto font-light text-lg md:text-xl"
+            className="text-white max-w-2xl mx-auto font-light text-lg md:text-xl text-balance"
           >
             Escolha sua modalidade e supere seus limites. Aulas dinâmicas e instrutores focados no seu resultado.
           </motion.p>
@@ -160,4 +160,6 @@ export default function AgendaLoop() {
       </div>
     </section>
   );
-}
+});
+
+export default AgendaLoop;

@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle } from 'lucide-react';
 
-export default function WhatsAppButton() {
+const WhatsAppButton = React.memo(() => {
   const whatsappNumber = "5562982525714";
   const message = encodeURIComponent("Olá! Gostaria de saber mais sobre os planos da Titanium Pro.");
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
@@ -42,4 +42,6 @@ export default function WhatsAppButton() {
       </AnimatePresence>
     </div>
   );
-}
+});
+
+export default WhatsAppButton;

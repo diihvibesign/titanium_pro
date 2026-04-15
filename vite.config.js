@@ -11,12 +11,22 @@ export default defineConfig({
   build: {
     target: 'esnext',
     cssCodeSplit: true,
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+      format: {
+        comments: false,
+      },
+    },
     rollupOptions: {
       output: {
         manualChunks: {
           'vendor-react': ['react', 'react-dom'],
           'vendor-gsap': ['gsap'],
-          'vendor-motion': ['framer-motion', 'motion'],
+          'vendor-motion': ['framer-motion'],
           'vendor-lenis': ['lenis'],
           'vendor-map': ['maplibre-gl'],
           'vendor-ui': ['lucide-react', 'clsx', 'tailwind-merge', 'class-variance-authority'],

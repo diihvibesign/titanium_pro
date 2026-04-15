@@ -1,6 +1,6 @@
 import React from "react";
 import { TestimonialsColumn } from "./ui/testimonials-columns-1";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 const testimonials = [
   {
@@ -69,7 +69,7 @@ const firstColumn = testimonials.slice(0, 4);
 const secondColumn = testimonials.slice(4, 7);
 const thirdColumn = testimonials.slice(7, 10);
 
-const Testimonials = () => {
+const Testimonials = React.memo(() => {
   return (
     <section id="testimonials" className="bg-[#0D0D12] py-24 relative overflow-hidden">
       {/* Decorative Elements */}
@@ -93,10 +93,10 @@ const Testimonials = () => {
             </span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter text-white text-center">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter text-white text-center text-balance">
             A VOZ DE QUEM <span className="text-red-600">TREINA PESADO</span>
           </h2>
-          <p className="text-center mt-6 text-white/50 text-lg">
+          <p className="text-center mt-6 text-white/50 text-lg text-balance">
             Confira o que nossos membros dizem sobre a experiência na melhor e maior academia da região.
           </p>
         </motion.div>
@@ -109,6 +109,6 @@ const Testimonials = () => {
       </div>
     </section>
   );
-};
+});
 
 export default Testimonials;

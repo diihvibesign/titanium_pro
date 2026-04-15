@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { cn } from '../lib/utils';
 
@@ -33,8 +33,9 @@ const sections = [
   },
 ];
 
-function ParallaxSection({ section, index }) {
+const ParallaxSection = React.memo(({ section, index }) => {
   const sectionRef = useRef(null);
+  const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -42,8 +43,9 @@ function ParallaxSection({ section, index }) {
   });
 
   const opacity = useTransform(scrollYProgress, [0, 0.7], [0, 1]);
-  const clipPath = useTransform(scrollYProgress, [0, 0.7], ["inset(0 100% 0 0)", "inset(0 0% 0 0)"]);
-  const translateY = useTransform(scrollYProgress, [0, 1], [-70, 0]); // Increased movement for more impact
+  // Disable heavy transforms on mobile
+  const clipPath = useTransform(scrollYProgress, [0, 0.7], [isMobile ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)", "inset(0 0% 0 0)"]);
+  const translateY = useTransform(scrollYProgress, [0, 1], [isMobile ? 0 : -70, 0]);
 
   return (
     <div
@@ -58,7 +60,7 @@ function ParallaxSection({ section, index }) {
         <span className="text-primary font-bold tracking-[0.2em] uppercase text-xs mb-4 block">
           0{section.id}
         </span>
-        <h3 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold text-white uppercase leading-tight mb-10">
+        <h3 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold text-white uppercase leading-tight mb-10 text-balance">
           {section.title}
         </h3>
         <motion.p
@@ -76,7 +78,7 @@ function ParallaxSection({ section, index }) {
           opacity,
           clipPath,
         }}
-        className="relative md:w-1/2 flex justify-center"
+        className="relative md:w-1/2 flex justify-center w-full"
       >
         <div className="relative h-[400px] md:h-[600px] w-full overflow-hidden rounded-[2.5rem] border border-white/5 shadow-[0_0_60px_rgba(254,22,22,0.15)]">
           <img
@@ -95,7 +97,7 @@ function ParallaxSection({ section, index }) {
       </motion.div>
     </div>
   );
-}
+});
 
 export default function ParallaxScrollFeature() {
   return (

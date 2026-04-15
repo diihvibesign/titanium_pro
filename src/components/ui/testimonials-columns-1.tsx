@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 
 interface Testimonial {
   text: string;
@@ -9,7 +9,7 @@ interface Testimonial {
   role?: string;
 }
 
-export const TestimonialsColumn = (props: {
+export const TestimonialsColumn = React.memo((props: {
   className?: string;
   testimonials: Testimonial[];
   duration?: number;
@@ -54,4 +54,4 @@ export const TestimonialsColumn = (props: {
       </motion.div>
     </div>
   );
-};
+});

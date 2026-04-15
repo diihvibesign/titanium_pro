@@ -35,6 +35,7 @@ export default function Hero() {
     <section id="home" ref={containerRef} className="relative w-full h-[100svh] flex items-center justify-center overflow-hidden bg-[#0D0D12]">
       {/* BACKGROUND VIDEO */}
       <div className="absolute inset-0 z-0">
+        {/* Video only on desktop/tablets (md+) to save ~2.5MB on mobile */}
         <video
           ref={videoRef}
           autoPlay
@@ -42,12 +43,22 @@ export default function Hero() {
           loop
           playsInline
           fetchpriority="high"
-          poster="/images/hero-poster.jpg"
-          className="absolute inset-0 h-full w-full object-cover grayscale brightness-[0.35] scale-105"
+          poster="/images/hero-poster.webp"
+          className="absolute inset-0 h-full w-full object-cover grayscale brightness-[0.35] scale-105 hidden md:block"
         >
           <source src="/videos/video_hero_section_optimized.webm" type="video/webm" />
           <source src="/images/hero-poster.webp" type="image/webp" />
         </video>
+        
+        {/* Poster only on mobile to save bandwidth */}
+        <div className="md:hidden absolute inset-0">
+          <img 
+            src="/images/hero-poster.webp" 
+            alt="Hero Poster" 
+            className="w-full h-full object-cover grayscale brightness-[0.35] scale-105"
+            fetchpriority="high"
+          />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-[#0D0D12]"></div>
       </div>
 
