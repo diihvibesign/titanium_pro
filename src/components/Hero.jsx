@@ -46,6 +46,7 @@ export default function Hero() {
           className="absolute inset-0 h-full w-full object-cover grayscale brightness-[0.35] scale-105"
         >
           <source src="/videos/video_hero_section_optimized.webm" type="video/webm" />
+          <source src="/images/hero-poster.webp" type="image/webp" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-[#0D0D12]"></div>
       </div>

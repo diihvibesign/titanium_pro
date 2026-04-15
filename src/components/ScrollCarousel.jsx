@@ -50,7 +50,12 @@ export default function ScrollCarousel() {
               <img 
                 src={bgImages[i % 2]} 
                 alt={item.title} 
+                width={1920}
+                height={1080}
                 className="w-full h-full object-cover opacity-90"
+                loading="lazy"
+                decoding="async"
+                fetchpriority="low"
               />
               {/* Vertical Fade */}
               <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#0D0D12] to-transparent z-10" />

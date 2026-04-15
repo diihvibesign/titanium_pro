@@ -83,13 +83,31 @@ function App() {
       
       <Suspense fallback={<div className="h-20 w-full bg-[#0D0D12]" />}>
         <ParallaxScrollFeature />
+      </Suspense>
+
+      <Suspense fallback={<div className="h-20 w-full bg-[#0D0D12]" />}>
         <Testimonials />
+      </Suspense>
+
+      <Suspense fallback={<div className="h-20 w-full bg-[#0D0D12]" />}>
         <AgendaLoop />
+      </Suspense>
+
+      <Suspense fallback={<div className="h-20 w-full bg-[#0D0D12]" />}>
         <Planos onPlanoClick={() => openAuth('signup')} />
+      </Suspense>
+
+      <Suspense fallback={<div className="h-20 w-full bg-[#0D0D12]" />}>
         <Localizacao />
+      </Suspense>
+
+      <Suspense fallback={<div className="h-4 w-full bg-[#0D0D12]" />}>
         <Footer />
+      </Suspense>
+
+      {/* Non-visual components share a boundary */}
+      <Suspense fallback={null}>
         <WhatsAppButton />
-        
         <AuthScreen 
           isOpen={isAuthOpen} 
           onClose={() => setIsAuthOpen(false)} 

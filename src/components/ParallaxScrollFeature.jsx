@@ -82,8 +82,12 @@ function ParallaxSection({ section, index }) {
           <img
             src={section.imageUrl}
             alt={section.title}
+            width={800}
+            height={600}
             className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
             loading="lazy"
+            decoding="async"
+            fetchpriority="low"
           />
           {/* Subtle overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D12]/50 via-transparent to-transparent" />
