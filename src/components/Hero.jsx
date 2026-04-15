@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import { ShinyButton } from './ui/shiny-button';
+import { MagneticButton } from './ui/magnetic-button';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -9,98 +11,88 @@ export default function Hero() {
   const videoRef = useRef(null);
 
   useEffect(() => {
-    let fired = false;
-    
-    // The master reveal function
     const triggerReveal = () => {
-      if (fired) return;
-      fired = true;
       gsap.to('.hero-text, #app-navbar, #whatsapp-button', { 
         autoAlpha: 1, 
         y: 0, 
-        duration: 1.5, 
-        stagger: 0.15, 
+        duration: 1.2, 
+        stagger: 0.1, 
         ease: "power3.out",
-        pointerEvents: "auto"
+        clearProps: "all"
       });
     };
 
-    // Remove immediate scroll-based reveals to respect video end sequence
-    // if (typeof window !== 'undefined' && window.scrollY > 50) {
-    //   triggerReveal();
-    // }
-
     const ctx = gsap.context(() => {
-      // Visibility is managed primarily by CSS, but we set it here too
-      // to ensure GSAP has control over the properties from t=0.
-      gsap.set('.hero-text, #app-navbar, #whatsapp-button', { autoAlpha: 0, y: 30 });
+      gsap.set('.hero-text, #whatsapp-button', { autoAlpha: 0, y: 20 });
+      gsap.set('#app-navbar', { autoAlpha: 0, y: -20 });
+      setTimeout(triggerReveal, 100);
     }, containerRef);
 
-    // Bind native video ended event
-    if (videoRef.current) {
-      videoRef.current.onended = triggerReveal;
-    }
-
-    // Safety fallback: if video is blocked entirely by browser policies, show UI after 15s
-    const fallbackId = setTimeout(triggerReveal, 15000);
-
-    return () => {
-      clearTimeout(fallbackId);
-      if (videoRef.current) {
-        videoRef.current.onended = null;
-      }
-      ctx.revert();
-      // DO NOT reveal navbar here as it causes premature reveal in Strict Mode
-    };
+    return () => ctx.revert();
   }, []);
 
   return (
     <section id="home" ref={containerRef} className="relative w-full h-[100svh] flex items-center justify-center overflow-hidden bg-[#0D0D12]">
-      {/* BACKGROUND VIDEO (One-Shot) */}
+      {/* BACKGROUND VIDEO */}
       <div className="absolute inset-0 z-0">
         <video
           ref={videoRef}
           autoPlay
           muted
+          loop
           playsInline
-          className="w-full h-full object-cover object-[center_35%] md:object-center opacity-60 scale-125 md:scale-100 transition-transform duration-1000"
+          fetchpriority="high"
+          poster="/images/hero-poster.jpg"
+          className="absolute inset-0 h-full w-full object-cover grayscale brightness-[0.35] scale-105"
         >
           <source src="/videos/video_hero_section_optimized.webm" type="video/webm" />
         </video>
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0D0D12]/20 via-black/50 to-[#0D0D12]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-[#0D0D12]"></div>
       </div>
 
       {/* CONTENT */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col items-center text-center mt-20">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col items-center text-center mt-10">
         
-        {/* STORYTELLING INCORPORADO */}
-        <span className="hero-text inline-block py-1 px-4 rounded-full bg-primary/10 text-primary border border-primary/30 text-xs tracking-[0.2em] font-semibold uppercase mb-8 shadow-[0_0_15px_rgba(254,22,22,0.15)] backdrop-blur-sm">
+        {/* TAGLINE */}
+        <span className="hero-text inline-block py-1 px-4 rounded-full bg-primary/20 text-white border border-primary/40 text-[10px] tracking-[0.3em] font-bold uppercase mb-8 backdrop-blur-md">
           A Forja dos Campeões
         </span>
 
         {/* HEADLINE */}
-        <h1 className="hero-text font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white uppercase tracking-tight mb-6 max-w-4xl leading-[1.1] md:leading-[1.05] drop-shadow-2xl">
-          Sua melhor versão começa na Titanium Pro
+        <h1 className="hero-text font-heading text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white uppercase tracking-tighter mb-6 max-w-5xl leading-[0.95] drop-shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+          Titanium <span className="text-primary italic">Pro</span>
         </h1>
 
         {/* SUBHEADLINE */}
-        <p className="hero-text text-base sm:text-lg md:text-xl text-zinc-200 font-light mb-8 max-w-2xl drop-shadow-lg leading-relaxed px-4 md:px-0">
-          A academia premium de Goiânia com estrutura de alto nível, <br className="hidden sm:block" /> treino personalizado e uma comunidade que te impulsiona a <span className="text-white font-bold whitespace-nowrap">superar limites.</span>
+        <p className="hero-text text-sm sm:text-base md:text-lg text-zinc-100 font-light mb-10 max-w-2xl tracking-widest uppercase leading-relaxed drop-shadow-lg">
+          Estrutura premium • Treino personalizado • Performance máxima
         </p>
 
-        {/* CTA BOTAO */}
-        <div className="hero-text">
-          <button 
-            onClick={() => document.getElementById('planos')?.scrollIntoView({ behavior: 'smooth' })}
-            className="group relative inline-flex items-center justify-center px-12 py-5 font-bold text-white uppercase tracking-[0.15em] bg-primary rounded-full overflow-hidden shadow-[0_0_20px_rgba(254,22,22,0.4)] hover:shadow-[0_0_40px_rgba(254,22,22,0.6)] transition-all duration-300 transform hover:-translate-y-1"
-          >
-            <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-black/20 rounded-full group-hover:w-56 group-hover:h-56 opacity-10"></span>
-            <span className="relative">Comece Agora</span>
-          </button>
+        {/* CTA BUTTONS */}
+        <div className="hero-text flex flex-col sm:flex-row items-center gap-8">
+          <MagneticButton distance={0.2}>
+            <ShinyButton 
+              onClick={() => document.getElementById('planos')?.scrollIntoView({ behavior: 'smooth' })}
+              className="px-12 py-5 text-[12px] tracking-[0.25em] font-black uppercase shadow-[0_0_40px_rgba(254,22,22,0.3)] hover:shadow-[0_0_60px_rgba(254,22,22,0.5)] transition-shadow duration-500 scale-105 sm:scale-110"
+              style={{ "--shiny-cta-bg": "#FE1616", "--shiny-cta-fg": "#ffffff" }}
+            >
+              Escolha seu Plano
+            </ShinyButton>
+          </MagneticButton>
+          
+          <MagneticButton distance={0.3}>
+            <a 
+              href="#estrutura"
+              className="group flex items-center gap-3 text-[11px] uppercase tracking-[0.4em] font-bold text-white hover:text-primary transition-all drop-shadow-md"
+            >
+              <span>Conheça a Unidade</span>
+              <div className="w-10 h-[1px] bg-white/40 group-hover:w-14 group-hover:bg-primary transition-all duration-300"></div>
+            </a>
+          </MagneticButton>
         </div>
-        
       </div>
+
+      <div className="absolute bottom-0 left-0 h-40 w-full bg-gradient-to-t from-[#0D0D12] to-transparent pointer-events-none"></div>
     </section>
   );
 }

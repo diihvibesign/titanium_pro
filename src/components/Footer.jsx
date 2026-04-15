@@ -35,7 +35,13 @@ export default function Footer() {
           {/* Brand */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left">
             <a href="#home" className="flex justify-center md:justify-start items-center mb-6 hover:opacity-80 transition-opacity">
-              <img src="https://w12evostorage.w12app.com.br/evo/upload-imagem/27326/00173254-83d9-4cf3-939d-97b8e6848079.png" alt="Titanium Logo" className="h-14 object-contain brightness-0 invert opacity-90" />
+              <img 
+                src="https://w12evostorage.w12app.com.br/evo/upload-imagem/27326/00173254-83d9-4cf3-939d-97b8e6848079.png" 
+                alt="Titanium Logo" 
+                width="230"
+                height="84"
+                className="h-14 w-auto object-contain brightness-0 invert opacity-90" 
+              />
             </a>
             <p className="text-zinc-200 font-light leading-relaxed max-w-md">
               A Titanium Pro Academia oferece uma experiência fitness premium, unindo equipamentos de ponta, 

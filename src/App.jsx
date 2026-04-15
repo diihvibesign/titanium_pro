@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense, lazy } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import ParallaxScrollFeature from './components/ParallaxScrollFeature';
-import Testimonials from './components/Testimonials';
-import AgendaLoop from './components/AgendaLoop';
-import Planos from './components/Planos';
-import Localizacao from './components/Localizacao';
-import Footer from './components/Footer';
-import WhatsAppButton from './components/WhatsAppButton';
-import AuthScreen from './components/AuthScreen';
+
+// Lazy load non-critical components
+const ParallaxScrollFeature = lazy(() => import('./components/ParallaxScrollFeature'));
+const Testimonials = lazy(() => import('./components/Testimonials'));
+const AgendaLoop = lazy(() => import('./components/AgendaLoop'));
+const Planos = lazy(() => import('./components/Planos'));
+const Localizacao = lazy(() => import('./components/Localizacao'));
+const Footer = lazy(() => import('./components/Footer'));
+const WhatsAppButton = lazy(() => import('./components/WhatsAppButton'));
+const AuthScreen = lazy(() => import('./components/AuthScreen'));
+
 import gsap from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import Lenis from 'lenis';
@@ -77,19 +80,22 @@ function App() {
     <main className="w-full bg-[#0D0D12] text-white overflow-hidden selection:bg-primary selection:text-white relative">
       <Navbar onLoginClick={() => openAuth('login')} />
       <Hero />
-      <ParallaxScrollFeature />
-      <Testimonials />
-      <AgendaLoop />
-      <Planos onPlanoClick={() => openAuth('signup')} />
-      <Localizacao />
-      <Footer />
-      <WhatsAppButton />
       
-      <AuthScreen 
-        isOpen={isAuthOpen} 
-        onClose={() => setIsAuthOpen(false)} 
-        initialView={authView} 
-      />
+      <Suspense fallback={<div className="h-20 w-full bg-[#0D0D12]" />}>
+        <ParallaxScrollFeature />
+        <Testimonials />
+        <AgendaLoop />
+        <Planos onPlanoClick={() => openAuth('signup')} />
+        <Localizacao />
+        <Footer />
+        <WhatsAppButton />
+        
+        <AuthScreen 
+          isOpen={isAuthOpen} 
+          onClose={() => setIsAuthOpen(false)} 
+          initialView={authView} 
+        />
+      </Suspense>
     </main>
   );
 }
