@@ -7,11 +7,12 @@ interface ShinyButtonProps {
   children: React.ReactNode
   onClick?: () => void
   className?: string
+  style?: React.CSSProperties
 }
 
-export function ShinyButton({ children, onClick, className = "" }: ShinyButtonProps) {
+export function ShinyButton({ children, onClick, className = "", style }: ShinyButtonProps) {
   return (
-    <button className={`shiny-cta ${className}`} onClick={onClick}>
+    <button className={`shiny-cta ${className}`} onClick={onClick} style={style}>
       <span>{children}</span>
     </button>
   )

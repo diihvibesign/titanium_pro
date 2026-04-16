@@ -1,6 +1,7 @@
 import React from "react";
 import { TestimonialsColumn } from "./ui/testimonials-columns-1";
 import { motion } from "framer-motion";
+import { useAdaptiveAnimation } from "../hooks/useAdaptiveAnimation";
 
 const testimonials = [
   {
@@ -70,12 +71,15 @@ const secondColumn = testimonials.slice(4, 7);
 const thirdColumn = testimonials.slice(7, 10);
 
 const Testimonials = React.memo(() => {
+  const { durationMultiplier, maxSimultaneousAnimations } = useAdaptiveAnimation();
+  const showSecondColumn = maxSimultaneousAnimations >= 3;
+  const showThirdColumn = maxSimultaneousAnimations >= 5;
+
   return (
     <section id="testimonials" className="bg-[#0D0D12] py-24 relative overflow-hidden">
-      {/* Decorative Elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-red-600/50 to-transparent" />
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-red-600/50 to-transparent" />
-      
+
       <div className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 bg-red-600/5 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-red-600/5 blur-[120px] rounded-full pointer-events-none" />
 
@@ -83,7 +87,7 @@ const Testimonials = React.memo(() => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8 * durationMultiplier, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
           className="flex flex-col items-center justify-center max-w-[640px] mx-auto mb-16"
         >
@@ -102,9 +106,9 @@ const Testimonials = React.memo(() => {
         </motion.div>
 
         <div className="flex justify-center gap-6 mt-10 [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] max-h-[700px] overflow-hidden">
-          <TestimonialsColumn testimonials={firstColumn} duration={25} />
-          <TestimonialsColumn testimonials={secondColumn} className="hidden md:block" duration={32} />
-          <TestimonialsColumn testimonials={thirdColumn} className="hidden lg:block" duration={28} />
+          <TestimonialsColumn testimonials={firstColumn} duration={25 * durationMultiplier} />
+          {showSecondColumn && <TestimonialsColumn testimonials={secondColumn} className="hidden md:block" duration={32 * durationMultiplier} />}
+          {showThirdColumn && <TestimonialsColumn testimonials={thirdColumn} className="hidden lg:block" duration={28 * durationMultiplier} />}
         </div>
       </div>
     </section>
