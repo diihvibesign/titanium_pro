@@ -27,7 +27,7 @@ const Navbar = React.memo(({ onLoginClick }) => {
           alt="Titanium Logo" 
           width="230"
           height="84"
-          fetchpriority="high"
+          decoding="async"
           className="h-12 w-auto object-contain" 
         />
       </a>

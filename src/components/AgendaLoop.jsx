@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useAdaptiveAnimation } from '../hooks/useAdaptiveAnimation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, Users } from 'lucide-react';
 
@@ -56,6 +57,7 @@ const typeColors = {
 const AgendaLoop = React.memo(() => {
   const [activeDay, setActiveDay] = useState("Segunda");
   const days = Object.keys(weeklySchedule);
+  const { durationMultiplier, maxSimultaneousAnimations } = useAdaptiveAnimation();
 
   return (
     <section id="agenda" className="w-full py-24 bg-transparent relative">
@@ -77,7 +79,7 @@ const AgendaLoop = React.memo(() => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
+            transition={{ delay: 0.2 * durationMultiplier }}
             className="text-white max-w-2xl mx-auto font-light text-lg md:text-xl text-balance"
           >
             Escolha sua modalidade e supere seus limites. Aulas dinâmicas e instrutores focados no seu resultado.
@@ -99,7 +101,7 @@ const AgendaLoop = React.memo(() => {
                   <motion.div
                     layoutId="activeDayPill"
                     className="absolute inset-0 bg-primary rounded-full -z-10"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 * durationMultiplier }}
                   />
                 )}
                 {day}
@@ -116,7 +118,7 @@ const AgendaLoop = React.memo(() => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.3 * durationMultiplier }}
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
             >
               {weeklySchedule[activeDay].map((item, i) => (
@@ -124,7 +126,7 @@ const AgendaLoop = React.memo(() => {
                   key={`${activeDay}-${i}`}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
+                  transition={{ delay: i < maxSimultaneousAnimations ? i * 0.06 * durationMultiplier : 0 }}
                   className={`glass-panel p-8 border group hover:border-primary/50 transition-all cursor-pointer bg-gradient-to-br snap-start sm:snap-align-none ${typeColors[item.type]}`}
                 >
                   <div className="flex justify-between items-start mb-8">
