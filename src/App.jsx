@@ -17,6 +17,8 @@ const Footer = lazyWithIdle(() => import('./components/Footer'), { idle: true, t
 const WhatsAppButton = lazyWithIdle(() => import('./components/WhatsAppButton'), { idle: true, timeout: 2000 });
 const AuthScreen = lazyWithIdle(() => import('./components/AuthScreen'), { idle: true, timeout: 2200 });
 
+const fallbackByHeight = (heightClass) => <div className={`${heightClass} w-full bg-[#0D0D12]`} />;
+
 function App() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [authView, setAuthView] = useState('login');
@@ -92,38 +94,38 @@ function App() {
         <Navbar onLoginClick={() => openAuth('login')} />
         <Hero />
 
-        <DeferredSection fallback={<div className="h-24 w-full bg-[#0D0D12]" />} rootMargin="350px 0px">
-          <Suspense fallback={<div className="h-24 w-full bg-[#0D0D12]" />}>
+        <DeferredSection fallback={fallbackByHeight('h-24')} rootMargin="350px 0px">
+          <Suspense fallback={fallbackByHeight('h-24')}>
             <ParallaxScrollFeature />
           </Suspense>
         </DeferredSection>
 
-        <DeferredSection fallback={<div className="h-20 w-full bg-[#0D0D12]" />}>
-          <Suspense fallback={<div className="h-20 w-full bg-[#0D0D12]" />}>
+        <DeferredSection fallback={fallbackByHeight('h-20')}>
+          <Suspense fallback={fallbackByHeight('h-20')}>
             <Testimonials />
           </Suspense>
         </DeferredSection>
 
-        <DeferredSection fallback={<div className="h-20 w-full bg-[#0D0D12]" />}>
-          <Suspense fallback={<div className="h-20 w-full bg-[#0D0D12]" />}>
+        <DeferredSection fallback={fallbackByHeight('h-20')}>
+          <Suspense fallback={fallbackByHeight('h-20')}>
             <AgendaLoop />
           </Suspense>
         </DeferredSection>
 
-        <DeferredSection fallback={<div className="h-20 w-full bg-[#0D0D12]" />}>
-          <Suspense fallback={<div className="h-20 w-full bg-[#0D0D12]" />}>
+        <DeferredSection fallback={fallbackByHeight('h-20')}>
+          <Suspense fallback={fallbackByHeight('h-20')}>
             <Planos onPlanoClick={() => openAuth('signup')} />
           </Suspense>
         </DeferredSection>
 
-        <DeferredSection fallback={<div className="h-20 w-full bg-[#0D0D12]" />}>
-          <Suspense fallback={<div className="h-20 w-full bg-[#0D0D12]" />}>
+        <DeferredSection fallback={fallbackByHeight('h-20')}>
+          <Suspense fallback={fallbackByHeight('h-20')}>
             <Localizacao />
           </Suspense>
         </DeferredSection>
 
-        <DeferredSection fallback={<div className="h-4 w-full bg-[#0D0D12]" />}>
-          <Suspense fallback={<div className="h-4 w-full bg-[#0D0D12]" />}>
+        <DeferredSection fallback={fallbackByHeight('h-4')}>
+          <Suspense fallback={fallbackByHeight('h-4')}>
             <Footer />
           </Suspense>
         </DeferredSection>

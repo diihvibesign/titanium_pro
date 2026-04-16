@@ -10,6 +10,7 @@ export default function Hero() {
   const containerRef = useRef(null);
   const videoRef = useRef(null);
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
   const { durationMultiplier, stagger } = useAdaptiveAnimation();
   const { isMobile, isLowEndDevice } = useDevicePerformance();
 
@@ -64,6 +65,7 @@ export default function Hero() {
             playsInline
             preload={isMobile ? 'metadata' : 'auto'}
             poster="/images/hero-poster.webp"
+            onCanPlay={() => setIsVideoReady(true)}
             className="absolute inset-0 h-full w-full object-cover grayscale brightness-[0.35] scale-105"
           >
             <source media="(max-width: 767px)" src="/videos/video_hero_section_optimized.webm" type="video/webm" />
@@ -74,7 +76,7 @@ export default function Hero() {
         <img
           src="/images/hero-poster.webp"
           alt="Hero Poster"
-          className="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.35] scale-105"
+          className={`absolute inset-0 w-full h-full object-cover grayscale brightness-[0.35] scale-105 transition-opacity duration-500 ${isVideoReady ? 'opacity-0' : 'opacity-100'}`}
           fetchpriority="high"
           loading="eager"
           decoding="async"
