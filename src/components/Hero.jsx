@@ -104,8 +104,8 @@ export default function Hero() {
           <MagneticButton distance={0.2}>
             <ShinyButton
               onClick={() => document.getElementById('planos')?.scrollIntoView({ behavior: 'smooth' })}
-              className="px-12 py-5 text-[12px] tracking-[0.25em] font-black uppercase shadow-[0_0_40px_rgba(254,22,22,0.3)] hover:shadow-[0_0_60px_rgba(254,22,22,0.5)] transition-shadow duration-500 scale-105 sm:scale-110"
-              style={{ '--shiny-cta-bg': '#FE1616', '--shiny-cta-fg': '#ffffff' }}
+              className="px-12 py-5 text-[12px] tracking-[0.25em] font-black uppercase scale-105 sm:scale-110"
+              style={{ '--shiny-cta-bg': '#FE1616', '--shiny-cta-fg': '#ffffff', '--shiny-cta-highlight': 'rgba(255, 255, 255, 0.8)' }}
             >
               Escolha seu Plano
             </ShinyButton>
