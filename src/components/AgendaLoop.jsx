@@ -11,7 +11,7 @@ const weeklySchedule = {
     { time: "18:30", name: "ABS", duration: "30 min", instructor: "EQUIPE TITANIUM", type: "funcional" },
     { time: "19:00", name: "STUDIO PILATES", duration: "60 min", instructor: "INSTRUTOR VIP", type: "pilates" },
     { time: "20:00", name: "MUAY THAI", duration: "60 min", instructor: "PROF. TITANIUM", type: "luta" },
-    { time: "21:00", name: "BOX", duration: "60 min", instructor: "PROF. TITANIUM", type: "luta" },
+    { time: "21:00", name: "BOXE", duration: "60 min", instructor: "PROF. TITANIUM", type: "luta" },
   ],
   "Terça": [
     { time: "07:00", name: "STUDIO PILATES", duration: "60 min", instructor: "INSTRUTOR VIP", type: "pilates" },
@@ -26,7 +26,7 @@ const weeklySchedule = {
     { time: "18:30", name: "ABS", duration: "30 min", instructor: "EQUIPE TITANIUM", type: "funcional" },
     { time: "19:00", name: "STUDIO PILATES", duration: "60 min", instructor: "INSTRUTOR VIP", type: "pilates" },
     { time: "20:00", name: "MUAY THAI", duration: "60 min", instructor: "PROF. TITANIUM", type: "luta" },
-    { time: "21:00", name: "BOX", duration: "60 min", instructor: "PROF. TITANIUM", type: "luta" },
+    { time: "21:00", name: "BOXE", duration: "60 min", instructor: "PROF. TITANIUM", type: "luta" },
   ],
   "Quinta": [
     { time: "07:00", name: "STUDIO PILATES", duration: "60 min", instructor: "INSTRUTOR VIP", type: "pilates" },
@@ -41,7 +41,7 @@ const weeklySchedule = {
     { time: "18:30", name: "ABS", duration: "30 min", instructor: "EQUIPE TITANIUM", type: "funcional" },
     { time: "19:00", name: "MUAY THAI", duration: "60 min", instructor: "PROF. TITANIUM", type: "luta" },
     { time: "19:00", name: "STUDIO PILATES", duration: "60 min", instructor: "INSTRUTOR VIP", type: "pilates" },
-    { time: "21:00", name: "BOX", duration: "60 min", instructor: "PROF. TITANIUM", type: "luta" },
+    { time: "21:00", name: "BOXE", duration: "60 min", instructor: "PROF. TITANIUM", type: "luta" },
   ],
   "Sábado": [
     { time: "09:00", name: "KARATÊ", duration: "60 min", instructor: "PROF. TITANIUM", type: "luta" },

@@ -1,6 +1,7 @@
 import React from 'react';
 import { GlowCard } from './ui/spotlight-card';
 import { MagneticButton } from './ui/magnetic-button';
+import { ShinyButton } from './ui/shiny-button';
 
 export default function Planos({ onPlanoClick }) {
   const plans = [
@@ -78,12 +79,13 @@ export default function Planos({ onPlanoClick }) {
               </ul>
             </div>
             <MagneticButton distance={0.05}>
-              <button 
+              <ShinyButton 
                 onClick={onPlanoClick}
-                className={`btn-magnetic w-full py-4 rounded-full font-bold uppercase tracking-widest text-sm transition-all ${plan.highlight ? 'bg-primary text-white shadow-[0_0_20px_rgba(254,22,22,0.4)]' : 'bg-transparent border border-white/20 text-white hover:border-primary hover:text-primary'} mt-8`}
+                className={`w-full !py-4 rounded-full font-bold uppercase tracking-widest text-sm transition-all mt-8 ${!plan.highlight ? '!bg-transparent !border !border-white/20 !text-white hover:!border-primary hover:!text-primary' : ''}`}
+                style={plan.highlight ? { '--shiny-cta-bg': '#FE1616', '--shiny-cta-fg': '#ffffff', '--shiny-cta-highlight': 'white' } : {}}
               >
                 GARANTIR MEU PLANO
-              </button>
+              </ShinyButton>
             </MagneticButton>
           </GlowCard>
         ))}

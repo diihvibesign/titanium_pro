@@ -40,7 +40,7 @@ export default function Localizacao() {
           Nossa <span className="font-drama italic text-primary">Localização</span>
         </h2>
         <p className="text-zinc-200 font-light leading-relaxed text-lg md:text-xl">
-          Estamos localizados no coração de Goiânia, com estacionamento privativo e fácil acesso para você focar apenas no seu treino.
+          Localizado na Região Leste de Goiânia, com estacionamento privativo e fácil acesso para você focar apenas no seu treino.
         </p>
         <p className="text-zinc-200 text-xs mt-3 tracking-wide uppercase">Goiânia — GO</p>
       </div>
