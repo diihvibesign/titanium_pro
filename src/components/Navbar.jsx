@@ -12,6 +12,15 @@ const Navbar = React.memo(({ onLoginClick }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [isOpen]);
+
+  useEffect(() => {
     let ctx = gsap.context(() => {
       ScrollTrigger.create({
         start: 'top -50px',
@@ -31,7 +40,15 @@ const Navbar = React.memo(({ onLoginClick }) => {
 
   return (
     <>
-      <nav id="app-navbar" ref={navRef} className="fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 rounded-full px-6 md:px-8 py-3 border border-transparent flex items-center justify-between w-[95%] max-w-5xl [&.nav-scrolled]:bg-[#0D0D12]/80 [&.nav-scrolled]:backdrop-blur-xl [&.nav-scrolled]:border-white/10 [&.nav-scrolled]:shadow-2xl text-white">
+      <nav 
+        id="app-navbar" 
+        ref={navRef} 
+        className={`fixed top-6 left-1/2 -translate-x-1/2 z-[999] transition-all duration-500 rounded-full px-6 md:px-8 py-3 border flex items-center justify-between w-[95%] max-w-5xl 
+          ${isOpen 
+            ? 'bg-[#0D0D12] border-white/10 shadow-2xl' 
+            : 'border-transparent [&.nav-scrolled]:bg-[#0D0D12]/80 [&.nav-scrolled]:backdrop-blur-xl [&.nav-scrolled]:border-white/10 [&.nav-scrolled]:shadow-2xl'
+          } text-white`}
+      >
         <a href="#home" className="font-heading font-bold text-2xl uppercase tracking-widest text-primary cursor-pointer hover:scale-[1.02] transition-transform">
           <img 
             src="https://w12evostorage.w12app.com.br/evo/upload-imagem/27326/00173254-83d9-4cf3-939d-97b8e6848079.png" 
@@ -62,10 +79,11 @@ const Navbar = React.memo(({ onLoginClick }) => {
 
           {/* Mobile Menu Toggle */}
           <button 
-            className="md:hidden p-2 text-white hover:text-primary transition-colors"
+            className="md:hidden p-2 text-white hover:text-primary transition-colors focus:outline-none relative z-[1000]"
             onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+            {isOpen ? <X size={32} /> : <Menu size={32} />}
           </button>
         </div>
       </nav>
@@ -74,32 +92,46 @@ const Navbar = React.memo(({ onLoginClick }) => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="fixed top-24 left-1/2 -translate-x-1/2 w-[90%] max-w-sm z-[49] bg-[#0D0D12]/95 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 shadow-2xl md:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[998] bg-[#0D0D12] md:hidden flex flex-col items-center justify-center p-8"
           >
-            <div className="flex flex-col space-y-4">
-              {navLinks.map((link) => (
-                <a
+            {/* Background pattern for premium feel */}
+            <div className="absolute inset-0 opacity-30 pointer-events-none bg-[radial-gradient(circle_at_center,_var(--primary)_0%,_transparent_70%)]" />
+            
+            <div className="flex flex-col items-center space-y-4 w-full relative z-10 px-6">
+              {navLinks.map((link, i) => (
+                <motion.a
                   key={link.name}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 + i * 0.1, duration: 0.4, ease: "easeOut" }}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className="text-white/70 hover:text-primary text-sm uppercase tracking-[0.2em] font-semibold py-3 border-b border-white/5 transition-colors"
+                  className="text-white hover:text-primary text-4xl uppercase tracking-tighter font-black transition-all text-center w-full py-6 border-b border-white/5"
                 >
                   {link.name}
-                </a>
+                </motion.a>
               ))}
-              <ShinyButton
-                onClick={() => {
-                  onLoginClick();
-                  setIsOpen(false);
-                }}
-                className="w-full !py-4 !text-[10px] uppercase tracking-[0.2em] font-bold mt-4"
+              
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+                className="w-full pt-10"
               >
-                Login
-              </ShinyButton>
+                <ShinyButton
+                  onClick={() => {
+                    onLoginClick();
+                    setIsOpen(false);
+                  }}
+                  className="w-full !py-8 !text-lg uppercase tracking-[0.2em] font-black shadow-[0_0_50px_rgba(254,22,22,0.4)]"
+                >
+                  Login
+                </ShinyButton>
+              </motion.div>
             </div>
           </motion.div>
         )}
